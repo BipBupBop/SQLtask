@@ -1,1 +1,59 @@
+CREATE DATABASE BankDb;
+
+GO
+USE BankDb;
+GO
+
+CREATE TABLE Banks (
+	id INT PRIMARY KEY IDENTITY (1, 1),
+	bankName NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Cities (
+	id INT PRIMARY KEY IDENTITY (1, 1),
+	cityName NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE SocialStatuses (
+	id INT PRIMARY KEY IDENTITY (1, 1),
+	statusName NVARCHAR(50) NOT NULL
+);
+
+GO
+
+CREATE TABLE Clients (
+	id INT PRIMARY KEY IDENTITY (1, 1),
+	socialStatusId INT NOT NULL,
+	fullName NVARCHAR(75) NOT NULL,
+	FOREIGN KEY (socialStatusId) REFERENCES SocialStatuses(id)
+);
+
+CREATE TABLE Accounts (
+	id INT PRIMARY KEY IDENTITY (1, 1),
+	bankId INT NOT NULL,
+	clientId INT NOT NULL,
+	balance FLOAT NOT NULL,
+	FOREIGN KEY (bankId) REFERENCES Banks(Id),
+	FOREIGN KEY (clientId) REFERENCES Clients(id)
+);
+
+CREATE TABLE Cards (
+	id INT PRIMARY KEY IDENTITY (1, 1),
+	accountId INT NOT NULL,
+	number VARCHAR(19) NOT NULL,
+	expirationDate DATE NOT NULL,
+	balance FLOAT NOT NULL,
+	FOREIGN KEY (accountId) REFERENCES Accounts(id)
+);
+
+CREATE TABLE Branches (
+	id INT PRIMARY KEY IDENTITY (1, 1),
+	bankId INT NOT NULL,
+	cityId INT NOT NULL,
+	address NVARCHAR(100) NOT NULL,
+	FOREIGN KEY (bankId) REFERENCES Banks(id),
+	FOREIGN KEY (cityId) REFERENCES Cities(id)
+);
+
+GO
 
